@@ -95,9 +95,9 @@ public class HEXIO {
         int v;
         for ( int j = 0; j < len; j++ ) {
             v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-            hexChars[j * 2 + 2] = ',';
+            hexChars[j * 3] = hexArray[v >>> 4];
+            hexChars[j * 3 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 3 + 2] = ',';
         }
         return new String(hexChars);
     }
