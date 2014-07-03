@@ -5,16 +5,10 @@ import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
 
-import java.awt.Point;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Enumeration;
-import java.util.Scanner;
 
 
 public class HEXIO {
@@ -22,6 +16,8 @@ public class HEXIO {
 	/**
 	 * @param args
 	 */
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		CommPortIdentifier USB = null;
@@ -81,6 +77,7 @@ public class HEXIO {
                 while ( ( len = this.in.read(buffer)) > -1 )
                 {
                     System.out.print(bytesToHex(buffer,len));
+                    //System.out.print(bytesToStringUTFCustom(buffer));
                 }
             }
             catch ( IOException e )
@@ -89,6 +86,16 @@ public class HEXIO {
             }            
         }
     }
+    public static String bytesToStringUTFCustom(byte[] bytes) {
+    	 char[] buffer = new char[bytes.length >> 1];
+    	 for(int i = 0; i < buffer.length; i++) {
+
+    		 char c = (char)(bytes[i]) ;
+    		 buffer[i] = c;
+    	 }
+    	 return new String(buffer);
+    }
+
     final protected static char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     public static String bytesToHex(byte[] bytes,int len) {
         char[] hexChars = new char[len * 3];
