@@ -34,24 +34,28 @@ public class Check {
 
 				if (commPort instanceof SerialPort) {
 					SerialPort serialPort = (SerialPort) commPort;
-					serialPort.setSerialPortParams(9600,
+					serialPort.setSerialPortParams(19200,
 							SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 							SerialPort.PARITY_NONE);
-
 					InputStream in = serialPort.getInputStream();
 					OutputStream out = serialPort.getOutputStream();
-					int err =0;
-					int [] ring = new int[8];
+					int err = 0;
+					int [][] ring = new int[2][8];
 					System.out.print("start\n");
-					for(int i=0;i<10000;i++){
-						int rnd = (int)Math.random()*0xFF;
-						int pst = ring[i%8];
-						out.write(rnd);
-						ring[i%8] = rnd;
-						if(in.read()!=pst)
-							err++;
+					long str = System.nanoTime();
+					for(int i=0;i<10000/8;i++){
+						for(int j=0;j<8;j++){
+							int rnd = (int)(Math.round((Math.random()*255)));
+							out.write(rnd);
+							ring[i%2][j] = rnd;
+						}
+						out.flush();
+						for(int j=0;j<8;j++){
+							if(in.read()!=(ring[(i+1)%2][j]&0xFF))
+								err++;
+						}
 					}
-					System.out.print("failed"+err+"\n");
+					System.out.print("failed "+err+"\n time =" + (System.nanoTime()-str) + "\n");
 					in.close();
 					out.close();
 					
