@@ -37,7 +37,7 @@ public class HEXIO {
 
 				if (commPort instanceof SerialPort) {
 					SerialPort serialPort = (SerialPort) commPort;
-					serialPort.setSerialPortParams(19200,
+					serialPort.setSerialPortParams(9600,
 							SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 							SerialPort.PARITY_NONE);
 
@@ -76,8 +76,8 @@ public class HEXIO {
             {
                 while ( ( len = this.in.read(buffer)) > -1 )
                 {
-                    System.out.print(bytesToHex(buffer,len));
-                    //System.out.print(bytesToStringUTFCustom(buffer));
+                    //System.out.print(bytesToHex(buffer,len));
+                    System.out.print(bytesToStringUTFCustom(buffer,len));
                 }
             }
             catch ( IOException e )
@@ -86,9 +86,9 @@ public class HEXIO {
             }            
         }
     }
-    public static String bytesToStringUTFCustom(byte[] bytes) {
-    	 char[] buffer = new char[bytes.length >> 1];
-    	 for(int i = 0; i < buffer.length; i++) {
+    public static String bytesToStringUTFCustom(byte[] bytes,int len) {
+    	 char[] buffer = new char[len];
+    	 for(int i = 0; i < len; i++) {
 
     		 char c = (char)(bytes[i]) ;
     		 buffer[i] = c;
